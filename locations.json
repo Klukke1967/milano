@@ -1,0 +1,282 @@
+[
+  {
+    "id": "santeria-toscana-31",
+    "name": "Santeria Toscana 31",
+    "category": "rock",
+    "categoryLabel": "Rock & Alternativ Musik",
+    "lat": 45.44564,
+    "lng": 9.18835,
+    "address": "Viale Toscana 31, 20136 Milano",
+    "shortDesc": "Kulturelt epicenter for Milanos indiescene med koncerter, vinylbutik, bar og udendørs gårdhave.",
+    "tips": "Tjek deres koncertprogram om aftenen. Fantastisk sted at starte med en Negroni eller håndbrygget øl inden en rockkoncert.",
+    "socialUrl": "https://www.instagram.com/santeriamilano/",
+    "socialLabel": "Instagram @santeriamilano",
+    "image": "https://images.unsplash.com/photo-1514525253161-7a46d19cd819?w=600&auto=format&fit=crop&q=80",
+    "tags": [
+      "Indie",
+      "Live Koncert",
+      "Vinyl",
+      "Gårdhave"
+    ]
+  },
+  {
+    "id": "alcatraz-milano",
+    "name": "Alcatraz Milano",
+    "category": "rock",
+    "categoryLabel": "Rock & Alternativ Musik",
+    "lat": 45.4945,
+    "lng": 9.18263,
+    "address": "Via Valtellina 25, 20159 Milano",
+    "shortDesc": "Milanos mest legendariske venue for store rock- og metalkoncerter samt rå fredags-rockklub.",
+    "tips": "En kæmpe rå industrihal. Kom i god tid på koncertdage – køen til garderoben og ølbaren i pauserne kan være vild.",
+    "socialUrl": "https://www.instagram.com/alcatrazmilano/",
+    "socialLabel": "Instagram @alcatrazmilano",
+    "image": "https://images.unsplash.com/photo-1470225620780-dba8ba36b745?w=600&auto=format&fit=crop&q=80",
+    "tags": [
+      "Rock Venue",
+      "Metal",
+      "Undergrund",
+      "Kæmpe Hal"
+    ]
+  },
+  {
+    "id": "legend-club",
+    "name": "Legend Club",
+    "category": "rock",
+    "categoryLabel": "Rock & Alternativ Musik",
+    "lat": 45.51616,
+    "lng": 9.17944,
+    "address": "Viale Enrico Fermi 98, 20161 Milano",
+    "shortDesc": "Milanos ægte rock- og metaltempel midt i Parco Nord med rå energi og intim live-scene.",
+    "tips": "Stemningen er 100% dedikeret til rock og metal. Perfekt sted til kolde pints og høj guitar.",
+    "socialUrl": "https://www.instagram.com/legendclubmilano/",
+    "socialLabel": "Instagram @legendclubmilano",
+    "image": "https://images.unsplash.com/photo-1511671782779-c97d3d27a1d4?w=600&auto=format&fit=crop&q=80",
+    "tags": [
+      "Hard Rock",
+      "Heavy Metal",
+      "Intim Scene",
+      "Parco Nord"
+    ]
+  },
+  {
+    "id": "dischivolanti",
+    "name": "Dischivolanti",
+    "category": "rock",
+    "categoryLabel": "Rock & Alternativ Musik",
+    "lat": 45.45126,
+    "lng": 9.17317,
+    "address": "Ripa di Porta Ticinese 47, 20143 Milano",
+    "shortDesc": "Ikonisk pladebiks direkte på Navigli-kanalen fyldt med vinyler, rock-klassikere og sjældne indie-skiver.",
+    "tips": "Gå på vinyljagt sidst på eftermiddagen og hop direkte ud i aperitivo-baren lige ved siden af kanalen bagefter.",
+    "socialUrl": "https://www.instagram.com/dischivolantimilano/",
+    "socialLabel": "Instagram @dischivolantimilano",
+    "image": "https://images.unsplash.com/photo-1539185441755-769473a23570?w=600&auto=format&fit=crop&q=80",
+    "tags": [
+      "Vinyl",
+      "Pladebutik",
+      "Navigli",
+      "Indie Rock"
+    ]
+  },
+  {
+    "id": "serendeepity",
+    "name": "Serendeepity",
+    "category": "rock",
+    "categoryLabel": "Rock & Alternativ Musik",
+    "lat": 45.45347,
+    "lng": 9.18023,
+    "address": "Corso di Porta Ticinese 100, 20123 Milano",
+    "shortDesc": "Kurateret musikparadis ved Colonne di San Lorenzo med vinyler, vintage hi-fi, designbøger og streetwear.",
+    "tips": "Spørg personalet bag disken – de ved alt om Milanos hemmelige musikevents og undergrundsfester.",
+    "socialUrl": "https://www.instagram.com/serendeepitymilano/",
+    "socialLabel": "Instagram @serendeepitymilano",
+    "image": "https://images.unsplash.com/photo-1603048588665-791ca8aea617?w=600&auto=format&fit=crop&q=80",
+    "tags": [
+      "Vinyl Vault",
+      "Alternative Beats",
+      "Colonne",
+      "Street Culture"
+    ]
+  },
+  {
+    "id": "duomo-di-milano",
+    "name": "Duomo di Milano (Tagterrassen)",
+    "category": "sight",
+    "categoryLabel": "Monumenter & Seværdigheder",
+    "lat": 45.46417,
+    "lng": 9.19161,
+    "address": "Piazza del Duomo, 20122 Milano",
+    "shortDesc": "Verdens mest spektakulære gotiske katedral i hvid-lyserød Candoglia-marmor med 3.400 statuer.",
+    "tips": "Gå IKKE glip af tagterrassen (Terrazze del Duomo)! Tag elevatoren op og gå direkte mellem de gotiske spir med panoramaudsigt over hele byen og Alperne på klare dage.",
+    "socialUrl": "https://www.duomomilano.it",
+    "socialLabel": "Officiel Guide duomomilano.it",
+    "image": "https://images.unsplash.com/photo-1513581166391-887a96ddeafd?w=600&auto=format&fit=crop&q=80",
+    "tags": [
+      "Katedral",
+      "Tagterrasse",
+      "Gotik",
+      "Panorama"
+    ]
+  },
+  {
+    "id": "san-bernardino-alle-ossa",
+    "name": "San Bernardino alle Ossa",
+    "category": "sight",
+    "categoryLabel": "Monumenter & Seværdigheder",
+    "lat": 45.46226,
+    "lng": 9.19491,
+    "address": "Piazza Santo Stefano, 20122 Milano",
+    "shortDesc": "En fascinerende og dyster perle: Et benkapel dekoreret fra gulv til loft med tusindvis af menneskekranier.",
+    "tips": "Meget rå og 'rock’n’roll' seværdighed kun 5 minutters gang fra Duomo, som de færreste turister kender. Gratis adgang.",
+    "socialUrl": "https://www.instagram.com/explore/tags/sanbernardinoalleossa/",
+    "socialLabel": "Instagram #sanbernardinoalleossa",
+    "image": "https://images.unsplash.com/photo-1544620347-c4fd4a3d5957?w=600&auto=format&fit=crop&q=80",
+    "tags": [
+      "Knoglekapel",
+      "Morbide Historier",
+      "Gemt Skat",
+      "Historisk"
+    ]
+  },
+  {
+    "id": "cimitero-monumentale",
+    "name": "Cimitero Monumentale",
+    "category": "sight",
+    "categoryLabel": "Monumenter & Seværdigheder",
+    "lat": 45.48772,
+    "lng": 9.1778,
+    "address": "Piazzale Cimitero Monumentale, 20154 Milano",
+    "shortDesc": "Et kæmpe udendørs museum med dramatiske mausoleer, gotiske skulpturer og Campari-familiens vilde gravmonument.",
+    "tips": "Find den enorme 'Sidste Nadver' skulptur i bronze på Campari-familiens grav. Fuldstændig surrealistisk arkitektur.",
+    "socialUrl": "https://monumentale.comune.milano.it/",
+    "socialLabel": "Guide comune.milano.it",
+    "image": "https://images.unsplash.com/photo-1568605117036-5fe5e7bab0b7?w=600&auto=format&fit=crop&q=80",
+    "tags": [
+      "Monumental Kunst",
+      "Gotisk",
+      "Mausoleer",
+      "Campari"
+    ]
+  },
+  {
+    "id": "castello-sforzesco",
+    "name": "Castello Sforzesco",
+    "category": "sight",
+    "categoryLabel": "Monumenter & Seværdigheder",
+    "lat": 45.4703,
+    "lng": 9.17809,
+    "address": "Piazza Castello, 20121 Milano",
+    "shortDesc": "Kæmpe middelalder- og renæssancefæstning midt i byen, opført af Sforza-hertugerne med volde og tårne.",
+    "tips": "Gå gennem de store borgpladser og direkte ud i den frodige Parco Sempione mod triumfbuen Arco della Pace for en kold birra.",
+    "socialUrl": "https://www.milanocastello.it/",
+    "socialLabel": "Officiel Site milanocastello.it",
+    "image": "https://images.unsplash.com/photo-1574872121773-8a3c861e6878?w=600&auto=format&fit=crop&q=80",
+    "tags": [
+      "Fæstning",
+      "Parco Sempione",
+      "Borgmure",
+      "Historie"
+    ]
+  },
+  {
+    "id": "bar-luce-fondazione-prada",
+    "name": "Bar Luce (Fondazione Prada)",
+    "category": "viral",
+    "categoryLabel": "TikTok & Instagram",
+    "lat": 45.44437,
+    "lng": 9.20533,
+    "address": "Largo Isarco 2, 20139 Milano",
+    "shortDesc": "Verdens mest fotogene café – designet personligt af filminstruktøren Wes Anderson i 1950'er pastelæstetik.",
+    "tips": "Prøv de fungerende retro-flippemaskiner (inkl. The Life Aquatic flipperen) og snup en kaffe og cannoli i en levende filmkulisse.",
+    "socialUrl": "https://www.instagram.com/explore/tags/barluce/",
+    "socialLabel": "Instagram #barluce",
+    "image": "https://images.unsplash.com/photo-1554118811-1e0d58224f24?w=600&auto=format&fit=crop&q=80",
+    "tags": [
+      "Wes Anderson",
+      "Retro Flipper",
+      "Pastel",
+      "Prada Hotspot"
+    ]
+  },
+  {
+    "id": "all-antico-vinaio",
+    "name": "All’Antico Vinaio (Milano)",
+    "category": "viral",
+    "categoryLabel": "TikTok & Instagram",
+    "lat": 45.4629,
+    "lng": 9.18794,
+    "address": "Via Speronari 3, 20123 Milano",
+    "shortDesc": "Verdens mest virale sandwich-fænomen på TikTok! Kæmpe lune toscanske schiacciata-brød proppet med trøffelcreme og porchetta.",
+    "tips": "Bestil 'La Favolosa' (Sbriciolona, artiskokcreme, trøffelcreme og aubergine). Køen bevæger sig lynhurtigt, og det er hypen værd.",
+    "socialUrl": "https://www.tiktok.com/@allanticovinaio",
+    "socialLabel": "TikTok @allanticovinaio",
+    "image": "https://images.unsplash.com/photo-1509722747041-616f39b57569?w=600&auto=format&fit=crop&q=80",
+    "tags": [
+      "TikTok Fænomen",
+      "Schiacciata",
+      "Toscansk Sandwich",
+      "Street Food"
+    ]
+  },
+  {
+    "id": "bosco-verticale",
+    "name": "Bosco Verticale",
+    "category": "viral",
+    "categoryLabel": "TikTok & Instagram",
+    "lat": 45.48674,
+    "lng": 9.19126,
+    "address": "Via Gaetano de Castillia 11, 20124 Milano",
+    "shortDesc": "Milanos futuristiske vertikale skov i Porta Nuova – to ikoniske skyskrabere dækket af over 900 levende træer.",
+    "tips": "Det bedste fotospot er fra græsplænen i parken BAM (Biblioteca degli Alberi), hvor du kan fange hele tårnet i fuld højde.",
+    "socialUrl": "https://www.instagram.com/explore/tags/boscoverticale/",
+    "socialLabel": "Instagram #boscoverticale",
+    "image": "https://images.unsplash.com/photo-1596701062351-8c2c14d1fdd0?w=600&auto=format&fit=crop&q=80",
+    "tags": [
+      "Futurisme",
+      "Vertikal Skov",
+      "Arkitektur",
+      "Porta Nuova"
+    ]
+  },
+  {
+    "id": "starbucks-reserve-roastery",
+    "name": "Starbucks Reserve Roastery",
+    "category": "viral",
+    "categoryLabel": "TikTok & Instagram",
+    "lat": 45.46521,
+    "lng": 9.18581,
+    "address": "Piazza Cordusio 3, 20123 Milano",
+    "shortDesc": "Et palads af kaffe og kobber i det gamle postpalæ med et kæmpe fungerende risteri, marmorbare og Arriviamo cocktailbar.",
+    "tips": "Gå op på 1. sal til Arriviamo Bar og bestil en kaffebaseret cocktail med udsigt over hele maskineriet og risteriet.",
+    "socialUrl": "https://www.instagram.com/roasterymilano/",
+    "socialLabel": "Instagram @roasterymilano",
+    "image": "https://images.unsplash.com/photo-1442512595331-e89e73853f31?w=600&auto=format&fit=crop&q=80",
+    "tags": [
+      "Kafferisteri",
+      "Marmorbord",
+      "Arriviamo Cocktails",
+      "Grand Palads"
+    ]
+  },
+  {
+    "id": "via-paolo-sarpi-chinatown",
+    "name": "Via Paolo Sarpi (Chinatown Streetfood)",
+    "category": "viral",
+    "categoryLabel": "TikTok & Instagram",
+    "lat": 45.48103,
+    "lng": 9.17132,
+    "address": "Via Paolo Sarpi, 20154 Milano",
+    "shortDesc": "Milanos livligste gågade fyldt med viral streetfood: friskdampede dumplings, bubble tea og sprøde bao-buns.",
+    "tips": "Stop ved 'Ravioleria Sarpi' (nr. 27) for deres legendariske håndrullede dumplings lavet på kød fra den lokale italienske slagter Walter Sirtori.",
+    "socialUrl": "https://www.tiktok.com/tag/paolosarpi",
+    "socialLabel": "TikTok #paolosarpi",
+    "image": "https://images.unsplash.com/photo-1498654896293-37aacf113fd9?w=600&auto=format&fit=crop&q=80",
+    "tags": [
+      "Chinatown",
+      "Dumplings",
+      "Street Food",
+      "Viral Food"
+    ]
+  }
+]

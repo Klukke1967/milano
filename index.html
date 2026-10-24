@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="da">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>Milano Vennetur 🎸 — Rejseguide & Kort</title>
+  <meta name="description" content="Eksklusiv mobil-guide til Milano for venneturen: Rock & alternativ musik, historiske monumenter og virale TikTok/Insta hotspots.">
+  <meta name="theme-color" content="#0E0E12">
+
+  <!-- Google Fonts: Space Grotesk & Outfit -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800;900&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
+  <!-- Leaflet CSS -->
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
+
+  <!-- Custom Styles -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body class="dark-theme">
+  <div class="app-wrapper">
+    <!-- Top Header -->
+    <header class="top-header">
+      <div class="header-main">
+        <div class="brand">
+          <div class="brand-badge">⚡</div>
+          <div class="brand-text">
+            <h1>Milano Vennetur</h1>
+            <span class="subtitle">Rock, Monumenter & TikTok Spots</span>
+          </div>
+        </div>
+        <div class="header-stats">
+          <span id="visited-counter-pill" class="visited-counter-pill" title="Steder I har besøgt">
+            ⭐ <span id="visited-count">0</span>/14 set
+          </span>
+        </div>
+      </div>
+
+      <!-- Søgefelt -->
+      <div class="search-bar-wrap">
+        <span class="search-icon">🔍</span>
+        <input type="text" id="search-input" placeholder="Søg i spots, vinyl, streetfood..." autocomplete="off">
+        <button id="clear-search" class="clear-btn" aria-label="Ryd søgning">&times;</button>
+      </div>
+
+      <!-- Kategori Filter Chips -->
+      <nav class="filter-carousel" aria-label="Kategorier">
+        <button class="filter-chip active" data-category="all">
+          <span class="chip-icon">⚡</span>
+          <span class="chip-label">Alle Spots</span>
+          <span class="chip-count" id="count-all">14</span>
+        </button>
+
+        <button class="filter-chip chip-rock" data-category="rock">
+          <span class="chip-icon">🎸</span>
+          <span class="chip-label">Rock & Musik</span>
+          <span class="chip-count" id="count-rock">0</span>
+        </button>
+
+        <button class="filter-chip chip-sight" data-category="sight">
+          <span class="chip-icon">🏛️</span>
+          <span class="chip-label">Monumenter</span>
+          <span class="chip-count" id="count-sight">0</span>
+        </button>
+
+        <button class="filter-chip chip-viral" data-category="viral">
+          <span class="chip-icon">📱</span>
+          <span class="chip-label">TikTok & Insta</span>
+          <span class="chip-count" id="count-viral">0</span>
+        </button>
+
+        <button class="filter-chip chip-visited" data-category="visited">
+          <span class="chip-icon">⭐</span>
+          <span class="chip-label">Besøgt</span>
+          <span class="chip-count" id="count-visited">0</span>
+        </button>
+      </nav>
+    </header>
+
+    <!-- Hovedindhold -->
+    <main class="app-layout">
+      <!-- Sidebar / Listevisning -->
+      <section class="sidebar" id="sidebar">
+        <div class="sidebar-header">
+          <div class="sidebar-title-row">
+            <span class="sidebar-title" id="filter-title-label">Alle Spots i Milano</span>
+            <span class="sidebar-count" id="active-count-label">14 steder</span>
+          </div>
+        </div>
+
+        <div class="places-list" id="places-list">
+          <!-- Dynamisk indhold fra app.js -->
+        </div>
+      </section>
+
+      <!-- Kortsektion -->
+      <section class="map-container" id="map-container">
+        <div id="map"></div>
+
+        <!-- Flydende genvejsknapper på kortet -->
+        <div class="map-floating-controls">
+          <button id="btn-recenter" class="fab-btn" title="Centrér over Milano">
+            <span>🎯</span>
+            <span class="fab-label">Centrér</span>
+          </button>
+          <button id="btn-show-duomo" class="fab-btn" title="Find Duomo di Milano">
+            <span>🏛️</span>
+            <span class="fab-label">Duomo</span>
+          </button>
+        </div>
+      </section>
+    </main>
+
+    <!-- Mobil Bundmenu (Skift mellem Kort og Liste) -->
+    <nav class="mobile-nav-bar">
+      <button id="nav-btn-map" class="mobile-nav-btn active">
+        <span class="nav-icon">🗺️</span>
+        <span>Kortvisning</span>
+      </button>
+      <button id="nav-btn-list" class="mobile-nav-btn">
+        <span class="nav-icon">📋</span>
+        <span>Stedliste (<span id="mobile-list-count">14</span>)</span>
+      </button>
+    </nav>
+
+    <!-- Detalje Modal / Bottom Sheet -->
+    <div class="modal-backdrop" id="modal-backdrop">
+      <div class="detail-modal" id="detail-modal" role="dialog" aria-modal="true">
+        <button class="modal-close-btn" id="modal-close-btn" aria-label="Luk modal">&times;</button>
+        <div class="modal-body" id="modal-body">
+          <!-- Dynamisk indhold indsættes her -->
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Leaflet JS -->
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+  
+  <!-- App JS -->
+  <script src="app.js"></script>
+</body>
+</html>
