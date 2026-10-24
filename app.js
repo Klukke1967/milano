@@ -320,7 +320,7 @@ function openModal(place) {
 
     ${place.tips ? `
       <div class="modal-tip-box ${tipClass}">
-        <div class="tip-title">💡 Insider-Tip til Venneturen</div>
+        <div class="tip-title">💡 Insider-Tip til 50 års turen</div>
         <div class="tip-body">${place.tips}</div>
       </div>
     ` : ''}
