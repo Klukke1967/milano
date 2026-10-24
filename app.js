@@ -14,7 +14,9 @@ const STATE = {
 };
 
 const CATEGORY_META = {
+  hotel: { label: 'Hovedbase', icon: '🏨', badgeClass: 'badge-hotel', markerClass: 'marker-hotel' },
   rock: { label: 'Rock & Musik', icon: '🎸', badgeClass: 'badge-rock', markerClass: 'marker-rock' },
+  food: { label: 'Mad & Vin', icon: '🍷', badgeClass: 'badge-food', markerClass: 'marker-food' },
   sight: { label: 'Monumenter', icon: '🏛️', badgeClass: 'badge-sight', markerClass: 'marker-sight' },
   viral: { label: 'TikTok & Insta', icon: '📱', badgeClass: 'badge-viral', markerClass: 'marker-viral' },
 };
@@ -36,6 +38,7 @@ const DOM = {
   navBtnList: document.getElementById('nav-btn-list'),
   btnRecenter: document.getElementById('btn-recenter'),
   btnShowDuomo: document.getElementById('btn-show-duomo'),
+  btnShowHotel: document.getElementById('btn-show-hotel'),
 };
 
 // 1. Initialisering
@@ -99,7 +102,7 @@ function initMap() {
   STATE.map = L.map('map', {
     zoomControl: false,
     attributionControl: false
-  }).setView([45.4642, 9.1900], 13);
+  }).setView([45.4950, 9.1860], 12);
 
   L.control.zoom({ position: 'topright' }).addTo(STATE.map);
 
@@ -240,7 +243,7 @@ function renderList() {
     const isVisited = STATE.visitedIds.has(place.id);
 
     return `
-      <article class="place-card ${isVisited ? 'visited' : ''}" onclick="selectPlace('${place.id}')">
+      <article class="place-card ${place.isHotel ? 'is-hotel' : ''} ${isVisited ? 'visited' : ''}" onclick="selectPlace('${place.id}')">
         <div class="card-top-row">
           ${place.image ? `<img src="${place.image}" alt="${place.name}" class="card-thumb" loading="lazy">` : ''}
           <div class="card-info-col">
@@ -287,7 +290,7 @@ function openModal(place) {
   const googleMapsNav = `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}&travelmode=walking`;
   const appleMapsNav = `https://maps.apple.com/?daddr=${place.lat},${place.lng}&dirflg=w`;
 
-  const tipClass = place.category === 'sight' ? 'tip-sight' : place.category === 'viral' ? 'tip-viral' : '';
+  const tipClass = place.category === 'sight' ? 'tip-sight' : place.category === 'viral' ? 'tip-viral' : place.category === 'food' ? 'tip-food' : '';
 
   DOM.modalBody.innerHTML = `
     <div class="sheet-handle"></div>
@@ -343,14 +346,16 @@ function updateCounts() {
   const counts = {
     all: STATE.places.length,
     rock: STATE.places.filter(p => p.category === 'rock').length,
+    food: STATE.places.filter(p => p.category === 'food').length,
     sight: STATE.places.filter(p => p.category === 'sight').length,
     viral: STATE.places.filter(p => p.category === 'viral').length,
   };
 
-  document.getElementById('count-all').textContent = counts.all;
-  document.getElementById('count-rock').textContent = counts.rock;
-  document.getElementById('count-sight').textContent = counts.sight;
-  document.getElementById('count-viral').textContent = counts.viral;
+  if (document.getElementById('count-all')) document.getElementById('count-all').textContent = counts.all;
+  if (document.getElementById('count-rock')) document.getElementById('count-rock').textContent = counts.rock;
+  if (document.getElementById('count-food')) document.getElementById('count-food').textContent = counts.food;
+  if (document.getElementById('count-sight')) document.getElementById('count-sight').textContent = counts.sight;
+  if (document.getElementById('count-viral')) document.getElementById('count-viral').textContent = counts.viral;
 
   updateVisitedCounters();
 }
@@ -446,8 +451,15 @@ function setupEventListeners() {
   });
 
   // Kort genveje
+  if (DOM.btnShowHotel) {
+    DOM.btnShowHotel.addEventListener('click', () => {
+      const hotel = STATE.places.find(p => p.isHotel || p.id === 'hotel-da-vinci');
+      if (hotel) selectPlace(hotel.id);
+    });
+  }
+
   DOM.btnRecenter.addEventListener('click', () => {
-    STATE.map.flyTo([45.4642, 9.1900], 13, { duration: 0.8 });
+    STATE.map.flyTo([45.4950, 9.1860], 12, { duration: 0.8 });
   });
 
   DOM.btnShowDuomo.addEventListener('click', () => {

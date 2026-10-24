@@ -28,6 +28,14 @@
   --neon-viral-bg: rgba(217, 70, 239, 0.14);
   --neon-viral-border: rgba(217, 70, 239, 0.35);
 
+  --neon-food: #FF9900;
+  --neon-food-bg: rgba(255, 153, 0, 0.14);
+  --neon-food-border: rgba(255, 153, 0, 0.35);
+
+  --neon-hotel: #10B981;
+  --neon-hotel-bg: rgba(16, 185, 129, 0.16);
+  --neon-hotel-border: rgba(16, 185, 129, 0.4);
+
   --neon-gold: #FACC15;
   --neon-gold-bg: rgba(250, 204, 21, 0.16);
   --neon-gold-border: rgba(250, 204, 21, 0.4);
@@ -234,6 +242,13 @@ body {
   box-shadow: 0 0 12px rgba(0, 210, 255, 0.4);
 }
 
+.filter-chip.chip-food.active {
+  background: var(--neon-food);
+  color: #000;
+  border-color: var(--neon-food);
+  box-shadow: 0 0 12px rgba(255, 153, 0, 0.4);
+}
+
 .filter-chip.chip-viral.active {
   background: var(--neon-viral);
   color: #FFF;
@@ -393,6 +408,18 @@ body {
   border: 1px solid var(--neon-sight-border);
 }
 
+.badge-food {
+  background: var(--neon-food-bg);
+  color: var(--neon-food);
+  border: 1px solid var(--neon-food-border);
+}
+
+.badge-hotel {
+  background: var(--neon-hotel-bg);
+  color: var(--neon-hotel);
+  border: 1px solid var(--neon-hotel-border);
+}
+
 .badge-viral {
   background: var(--neon-viral-bg);
   color: var(--neon-viral);
@@ -523,6 +550,17 @@ body {
 .marker-sight .pin-bubble {
   border-color: var(--neon-sight);
   box-shadow: 0 0 14px var(--neon-sight);
+}
+
+.marker-food .pin-bubble {
+  border-color: var(--neon-food);
+  box-shadow: 0 0 14px var(--neon-food);
+}
+
+.marker-hotel .pin-bubble {
+  border-color: var(--neon-hotel);
+  box-shadow: 0 0 18px var(--neon-hotel);
+  background: #064E3B;
 }
 
 .marker-viral .pin-bubble {
@@ -755,6 +793,11 @@ body {
   border-left-color: var(--neon-sight);
 }
 
+.modal-tip-box.tip-food {
+  background: rgba(255, 153, 0, 0.08);
+  border-left-color: var(--neon-food);
+}
+
 .modal-tip-box.tip-viral {
   background: rgba(217, 70, 239, 0.08);
   border-left-color: var(--neon-viral);
@@ -955,4 +998,10 @@ body {
   .modal-title {
     font-size: 1.15rem;
   }
+}
+
+
+.place-card.is-hotel {
+  border: 1px solid var(--neon-hotel-border);
+  background: linear-gradient(135deg, rgba(16, 185, 129, 0.12) 0%, var(--bg-card) 100%);
 }

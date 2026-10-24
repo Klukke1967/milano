@@ -32,7 +32,7 @@
         </div>
         <div class="header-stats">
           <span id="visited-counter-pill" class="visited-counter-pill" title="Steder I har besøgt">
-            ⭐ <span id="visited-count">0</span>/14 set
+            ⭐ <span id="visited-count">0</span>/19 set
           </span>
         </div>
       </div>
@@ -49,13 +49,19 @@
         <button class="filter-chip active" data-category="all">
           <span class="chip-icon">⚡</span>
           <span class="chip-label">Alle Spots</span>
-          <span class="chip-count" id="count-all">14</span>
+          <span class="chip-count" id="count-all">19</span>
         </button>
 
         <button class="filter-chip chip-rock" data-category="rock">
           <span class="chip-icon">🎸</span>
           <span class="chip-label">Rock & Musik</span>
           <span class="chip-count" id="count-rock">0</span>
+        </button>
+
+        <button class="filter-chip chip-food" data-category="food">
+          <span class="chip-icon">🍷</span>
+          <span class="chip-label">Mad & Vin</span>
+          <span class="chip-count" id="count-food">0</span>
         </button>
 
         <button class="filter-chip chip-sight" data-category="sight">
@@ -100,13 +106,17 @@
 
         <!-- Flydende genvejsknapper på kortet -->
         <div class="map-floating-controls">
-          <button id="btn-recenter" class="fab-btn" title="Centrér over Milano">
-            <span>🎯</span>
-            <span class="fab-label">Centrér</span>
+          <button id="btn-show-hotel" class="fab-btn fab-hotel" title="Vis Hotel Da Vinci (Hovedbase)">
+            <span>🏨</span>
+            <span class="fab-label">Hotel</span>
           </button>
           <button id="btn-show-duomo" class="fab-btn" title="Find Duomo di Milano">
             <span>🏛️</span>
             <span class="fab-label">Duomo</span>
+          </button>
+          <button id="btn-recenter" class="fab-btn" title="Centrér over hele turen">
+            <span>🎯</span>
+            <span class="fab-label">Hele Byen</span>
           </button>
         </div>
       </section>
@@ -120,7 +130,7 @@
       </button>
       <button id="nav-btn-list" class="mobile-nav-btn">
         <span class="nav-icon">📋</span>
-        <span>Stedliste (<span id="mobile-list-count">14</span>)</span>
+        <span>Stedliste (<span id="mobile-list-count">19</span>)</span>
       </button>
     </nav>
 

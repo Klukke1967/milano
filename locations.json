@@ -1,5 +1,26 @@
 [
   {
+    "id": "hotel-da-vinci",
+    "name": "Hotel Da Vinci ⭐ (Hovedbase)",
+    "category": "hotel",
+    "categoryLabel": "Hotelbase",
+    "isHotel": true,
+    "lat": 45.53318,
+    "lng": 9.17108,
+    "address": "Via Senigallia 6, Niguarda, 20161 Milano",
+    "shortDesc": "Venneturens 4-stjernede base med store værelser og have, lige ved Bruzzano FN togstation.",
+    "tips": "Genvej til byen: Gå 2 min til Bruzzano FN station. S-tog (S2/S4) kører jer direkte til Garibaldi/Isola på 11 min og Affori M3 (gul metro) direkte til Duomo på ca. 20 minutter. Legend Club ligger kun 1,5 km herfra!",
+    "socialUrl": "https://www.booking.com/hotel/it/da-vinci-milano.html",
+    "socialLabel": "Hotel Da Vinci Booking",
+    "image": "https://images.unsplash.com/photo-1566073771259-6a8506099945?w=600&auto=format&fit=crop&q=80",
+    "tags": [
+      "Hovedbase",
+      "Hotel",
+      "Bruzzano FN",
+      "Parco Nord"
+    ]
+  },
+  {
     "id": "santeria-toscana-31",
     "name": "Santeria Toscana 31",
     "category": "rock",
@@ -277,6 +298,86 @@
       "Dumplings",
       "Street Food",
       "Viral Food"
+    ]
+  },
+  {
+    "id": "trattoria-arlati",
+    "name": "Trattoria Arlati dal 1936",
+    "category": "food",
+    "categoryLabel": "Autentisk Mad & Vin",
+    "lat": 45.5181,
+    "lng": 9.20866,
+    "address": "Via Alberto Nota 47, 20126 Milano",
+    "shortDesc": "Legendarisk rock- og kunsttrattoria fra 1936 nær hotellet, fyldt med vinyler, malerier og live musik i kælderen.",
+    "tips": "Milanos absolut fedeste trattoria til en vennetur! Bestil 'Risotto al salto' (sprødstegt safranrisotto) og deres enorme, sprøde Cotoletta alla Milanese. Kendt for musikere og rå vintage-stemning.",
+    "socialUrl": "https://www.trattoriaarlati.it/",
+    "socialLabel": "trattoriaarlati.it",
+    "image": "https://images.unsplash.com/photo-1555396273-367ea4eb4db5?w=600&auto=format&fit=crop&q=80",
+    "tags": [
+      "Rock Trattoria",
+      "Cotoletta",
+      "Risotto al Salto",
+      "Live Kælder"
+    ]
+  },
+  {
+    "id": "osteria-del-treno",
+    "name": "Osteria del Treno",
+    "category": "food",
+    "categoryLabel": "Autentisk Mad & Vin",
+    "lat": 45.4812,
+    "lng": 9.20122,
+    "address": "Via San Gregorio 46, 20124 Milano",
+    "shortDesc": "Klassisk Slow Food-oase i en historisk festsal for jernbanearbejdere med autentiske lombardiske retter og vinkort.",
+    "tips": "Bestil deres møre Ossobuco med safranrisotto. Kæmpe udvalg af oste og naturvin fra små lokale producenter.",
+    "socialUrl": "https://www.osteriadeltreno.it/",
+    "socialLabel": "osteriadeltreno.it",
+    "image": "https://images.unsplash.com/photo-1544025162-d76694265947?w=600&auto=format&fit=crop&q=80",
+    "tags": [
+      "Slow Food",
+      "Ossobuco",
+      "Traditionel",
+      "Naturvin"
+    ]
+  },
+  {
+    "id": "frida-bar-isola",
+    "name": "Frida Bar (Isola)",
+    "category": "rock",
+    "categoryLabel": "Rock & Alternativ Musik",
+    "lat": 45.48869,
+    "lng": 9.18733,
+    "address": "Via Antonio Pollaiuolo 3, 20159 Milano",
+    "shortDesc": "Rå urban gårdhavebar i Isola gemt bag graffiti-porte med craft beer, lækre cocktails og alternativ kunstnervibe.",
+    "tips": "Perfekt stop til aperitivo eller øl i gårdhaven før eller efter koncerter på Alcatraz. Toget fra Bruzzano kører lige til døren ved Garibaldi.",
+    "socialUrl": "https://www.instagram.com/fridaisola/",
+    "socialLabel": "Instagram @fridaisola",
+    "image": "https://images.unsplash.com/photo-1572116469696-31de0f17cc34?w=600&auto=format&fit=crop&q=80",
+    "tags": [
+      "Urban Gårdhave",
+      "Isola",
+      "Craft Beer",
+      "Pre-Party"
+    ]
+  },
+  {
+    "id": "bunker-breda-parco-nord",
+    "name": "Bunkers Breda (Parco Nord)",
+    "category": "sight",
+    "categoryLabel": "Monumenter & Seværdigheder",
+    "lat": 45.52815,
+    "lng": 9.21114,
+    "address": "Parco Nord Milano (Via Suzzani 283), 20162 Milano",
+    "shortDesc": "Autentiske underjordiske betonbunkere fra 2. verdenskrig gemt under træerne i Parco Nord, tæt på hotellet.",
+    "tips": "En rå, historisk oplevelse i skovområdet få minutter fra hotellet. Parco Nord er også fantastisk til en frisk formiddagstur.",
+    "socialUrl": "https://parconord.milano.it/bunker-breda/",
+    "socialLabel": "parconord.milano.it",
+    "image": "https://images.unsplash.com/photo-1509198397868-475647b2a1e5?w=600&auto=format&fit=crop&q=80",
+    "tags": [
+      "Bunkere",
+      "2. Verdenskrig",
+      "Parco Nord",
+      "Undergrund"
     ]
   }
 ]
