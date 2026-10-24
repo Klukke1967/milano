@@ -49,6 +49,34 @@ const CATEGORY_CONFIG = {
     glow: 'rgba(245, 158, 11, 0.6)',
     badgeClass: 'bg-amber-500/20 text-amber-400 border border-amber-500/30'
   },
+  beer: {
+    label: 'Ølbarer & Craft Beer',
+    icon: '🍺',
+    color: '#f97316',
+    glow: 'rgba(249, 115, 22, 0.6)',
+    badgeClass: 'bg-orange-500/20 text-orange-400 border border-orange-500/30'
+  },
+  vinyl: {
+    label: 'Vinylbutikker (Nyt & Brugt)',
+    icon: '🎵',
+    color: '#06b6d4',
+    glow: 'rgba(6, 182, 212, 0.6)',
+    badgeClass: 'bg-cyan-500/20 text-cyan-400 border border-cyan-500/30'
+  },
+  flea: {
+    label: 'Loppemarkeder & Antik',
+    icon: '🏷️',
+    color: '#84cc16',
+    glow: 'rgba(132, 204, 22, 0.6)',
+    badgeClass: 'bg-lime-500/20 text-lime-400 border border-lime-500/30'
+  },
+  vintage: {
+    label: 'Retro & Vintage Butikker',
+    icon: '👔',
+    color: '#a855f7',
+    glow: 'rgba(168, 85, 247, 0.6)',
+    badgeClass: 'bg-purple-500/20 text-purple-400 border border-purple-500/30'
+  },
   rock: {
     label: 'Rock & Alternativ Musik',
     icon: '🎸',
@@ -74,7 +102,6 @@ const CATEGORY_CONFIG = {
 
 // Initialize Leaflet Map
 function initMap() {
-  // Center near Milan Center / Duomo & Hotel
   map = L.map('map', {
     zoomControl: false,
     attributionControl: false
@@ -86,7 +113,6 @@ function initMap() {
     subdomains: 'abcd',
   }).addTo(map);
 
-  // Zoom control top right
   L.control.zoom({ position: 'topright' }).addTo(map);
 
   markersLayer = L.layerGroup().addTo(map);
@@ -133,9 +159,10 @@ function getFilteredLocations() {
       const matchName = spot.name.toLowerCase().includes(q);
       const matchDesc = spot.description.toLowerCase().includes(q);
       const matchTip = spot.tip ? spot.tip.toLowerCase().includes(q) : false;
+      const matchHours = spot.hours ? spot.hours.toLowerCase().includes(q) : false;
       const matchAddr = spot.address.toLowerCase().includes(q);
       const matchCat = spot.category_label.toLowerCase().includes(q);
-      if (!matchName && !matchDesc && !matchTip && !matchAddr && !matchCat) {
+      if (!matchName && !matchDesc && !matchTip && !matchHours && !matchAddr && !matchCat) {
         return false;
       }
     }
@@ -199,10 +226,21 @@ function renderList() {
             <h3 class="text-base font-bold text-white font-display">${spot.name}</h3>
             <p class="text-xs text-gray-400 flex items-center gap-1">📍 ${spot.address}</p>
           </div>
-          <button onclick="toggleVisitedSpot('${spot.id}')" class="p-2 rounded-xl bg-darksurface border border-darkborder hover:bg-darkborder/50 text-xs font-semibold text-gray-300 transition" title="Tjek af som besøgt">
+          <button onclick="toggleVisitedSpot('${spot.id}')" class="p-2 rounded-xl bg-darksurface border border-darkborder hover:bg-darkborder/50 text-xs font-semibold text-gray-300 transition shrink-0" title="Tjek af som besøgt">
             ${isVisited ? '⭐ <span class="hidden sm:inline">Besøgt</span>' : '☆ <span class="hidden sm:inline">Tjek af</span>'}
           </button>
         </div>
+
+        <!-- Opening Hours Banner -->
+        ${spot.hours ? `
+          <div class="rounded-xl px-3 py-2 bg-darksurface/90 border border-amber-500/30 flex items-start gap-2 text-xs">
+            <span class="text-amber-400 shrink-0">🕒</span>
+            <div class="min-w-0">
+              <span class="font-extrabold uppercase text-[10px] text-amber-400 block tracking-wider">Åbningstider</span>
+              <span class="text-amber-100 font-semibold leading-tight">${spot.hours}</span>
+            </div>
+          </div>
+        ` : ''}
 
         <p class="text-xs text-gray-300 leading-relaxed">${spot.description}</p>
 
@@ -210,14 +248,14 @@ function renderList() {
           <span class="font-bold text-red-400">🔥 Tip:</span> ${spot.tip}
         </div>
 
-        <div class="flex items-center gap-2 pt-1">
-          <a href="${spot.maps_url}" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold text-center shadow-md transition flex items-center justify-center gap-1.5">
+        <div class="flex items-center gap-2 pt-1 flex-wrap sm:flex-nowrap">
+          <a href="${spot.maps_url}" target="_blank" rel="noopener noreferrer" class="flex-1 py-2 px-3 rounded-xl bg-red-600 hover:bg-red-500 text-white text-xs font-bold text-center shadow-md transition flex items-center justify-center gap-1.5 min-w-[130px]">
             <span>📍</span> Rutevejledning
           </a>
-          <button onclick="zoomToSpot('${spot.id}')" class="py-2 px-3 rounded-xl bg-darksurface border border-darkborder hover:border-gray-500 text-gray-200 text-xs font-semibold transition">
+          <button onclick="zoomToSpot('${spot.id}')" class="py-2 px-3 rounded-xl bg-darksurface border border-darkborder hover:border-gray-500 text-gray-200 text-xs font-semibold transition flex items-center justify-center gap-1">
             🗺️ Vis på kort
           </button>
-          <a href="${spot.social_url}" target="_blank" rel="noopener noreferrer" class="py-2 px-3 rounded-xl bg-darksurface border border-darkborder hover:border-gray-500 text-gray-300 text-xs font-semibold transition">
+          <a href="${spot.social_url}" target="_blank" rel="noopener noreferrer" class="py-2 px-3 rounded-xl bg-darksurface border border-darkborder hover:border-gray-500 text-gray-300 text-xs font-semibold transition flex items-center justify-center gap-1">
             🔗 Link
           </a>
         </div>
@@ -237,6 +275,7 @@ function openModal(spot) {
   const visitedBadge = document.getElementById('modal-visited-badge');
   const title = document.getElementById('modal-title');
   const address = document.getElementById('modal-address');
+  const hours = document.getElementById('modal-hours');
   const desc = document.getElementById('modal-desc');
   const tip = document.getElementById('modal-tip');
   const mapsBtn = document.getElementById('modal-maps-btn');
@@ -260,11 +299,10 @@ function openModal(spot) {
 
   title.textContent = spot.name;
   address.innerHTML = `📍 ${spot.address}`;
+  hours.textContent = spot.hours || 'Tjek stedets hjemmeside/link';
   desc.textContent = spot.description;
   tip.textContent = spot.tip;
 
-  // Google Maps direct directions link:
-  // Use user location origin if possible via Maps dir API
   mapsBtn.href = `https://www.google.com/maps/dir/?api=1&destination=${spot.lat},${spot.lng}`;
 
   socialBtn.href = spot.social_url;
@@ -279,7 +317,6 @@ function closeModal() {
   currentModalSpot = null;
 }
 
-// Toggle visited helper
 window.toggleVisitedSpot = function(id) {
   if (visitedSet.has(id)) {
     visitedSet.delete(id);
@@ -347,7 +384,7 @@ function recenterMap() {
     return;
   }
   const group = L.featureGroup(filtered.map(s => L.marker([s.lat, s.lng])));
-  map.fitBounds(group.getBounds().pad(0.15));
+  map.fitBounds(group.getBounds().pad(0.12));
 }
 
 // Go to Hotel
@@ -361,7 +398,6 @@ function goToHotel() {
 
 // Setup Event Listeners
 function setupEvents() {
-  // Category Pills
   const pills = document.querySelectorAll('.cat-pill');
   pills.forEach(pill => {
     pill.addEventListener('click', () => {
@@ -379,7 +415,6 @@ function setupEvents() {
     });
   });
 
-  // Search input
   const searchInput = document.getElementById('search-input');
   const searchClear = document.getElementById('search-clear');
   searchInput.addEventListener('input', (e) => {
@@ -401,13 +436,11 @@ function setupEvents() {
     renderList();
   });
 
-  // View switchers
   document.getElementById('btn-view-map').addEventListener('click', () => switchView('map'));
   document.getElementById('btn-view-list').addEventListener('click', () => switchView('list'));
   document.getElementById('mobile-nav-map').addEventListener('click', () => switchView('map'));
   document.getElementById('mobile-nav-list').addEventListener('click', () => switchView('list'));
 
-  // Shortcuts & Buttons
   document.getElementById('hotel-shortcut').addEventListener('click', goToHotel);
   document.getElementById('mobile-nav-hotel').addEventListener('click', goToHotel);
   document.getElementById('btn-hotel-map').addEventListener('click', goToHotel);
@@ -421,7 +454,6 @@ function setupEvents() {
     if (allPill) allPill.click();
   });
 
-  // Modal close
   document.getElementById('modal-close').addEventListener('click', closeModal);
   document.getElementById('detail-modal').addEventListener('click', (e) => {
     if (e.target.id === 'detail-modal') closeModal();
@@ -438,7 +470,6 @@ function setupEvents() {
   });
 }
 
-// Fetch Locations & Start
 async function init() {
   loadVisited();
   initMap();

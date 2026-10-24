@@ -4,7 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
   <title>Milano Vennetur 🤘 – Rejseguide</title>
-  <meta name="description" content="Milano Vennetur guide: Rock, monumenter, TikTok spots og vores hotel basecamp.">
+  <meta name="description" content="Milano Vennetur guide: Ølbarer, vinyl, loppemarkeder, retro butikker, rock, seværdigheder, TikTok spots og hotel basecamp.">
   <meta name="theme-color" content="#0d0f12">
 
   <!-- Tailwind CSS CDN -->
@@ -16,6 +16,10 @@
         extend: {
           colors: {
             rock: '#ef4444',
+            beer: '#f97316',
+            vintage: '#a855f7',
+            vinyl: '#06b6d4',
+            flea: '#84cc16',
             monument: '#3b82f6',
             tiktok: '#ec4899',
             hotel: '#f59e0b',
@@ -32,7 +36,7 @@
 
   <!-- Leaflet CSS -->
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
-  <!-- Google Fonts: Inter & Space Grotesk -->
+  <!-- Google Fonts: Plus Jakarta Sans & Space Grotesk -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Space+Grotesk:wght@600;700&display=swap" rel="stylesheet">
@@ -43,17 +47,17 @@
 
   <!-- Top App Bar -->
   <header class="sticky top-0 z-40 bg-darksurface/95 backdrop-blur-md border-b border-darkborder px-4 py-3 shrink-0">
-    <div class="max-w-5xl mx-auto flex items-center justify-between gap-3">
+    <div class="max-w-6xl mx-auto flex items-center justify-between gap-3">
       <div class="flex items-center gap-2.5">
-        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-red-600 to-amber-500 flex items-center justify-center text-lg shadow-lg shadow-red-500/20">
+        <div class="w-9 h-9 rounded-xl bg-gradient-to-br from-red-600 via-orange-500 to-amber-500 flex items-center justify-center text-lg shadow-lg shadow-red-500/20">
           🤘
         </div>
         <div>
           <h1 class="text-base font-extrabold tracking-tight font-display text-white leading-tight flex items-center gap-1.5">
             Milano Vennetur
-            <span class="text-[10px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 font-mono font-bold tracking-wider uppercase">2026</span>
+            <span class="text-[10px] px-1.5 py-0.5 rounded bg-red-500/20 text-red-400 font-mono font-bold tracking-wider uppercase">32 SPOTS</span>
           </h1>
-          <p class="text-[11px] text-gray-400 leading-none">Rock · Seværdigheder · TikTok · Basecamp</p>
+          <p class="text-[11px] text-gray-400 leading-none">Øl · Vinyl · Loppemarkeder · Retro · Rock</p>
         </div>
       </div>
 
@@ -74,7 +78,7 @@
     </div>
 
     <!-- Search & Quick Filters -->
-    <div class="max-w-5xl mx-auto mt-2.5 space-y-2">
+    <div class="max-w-6xl mx-auto mt-2.5 space-y-2">
       <!-- Search Input -->
       <div class="relative">
         <span class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none text-gray-400 text-sm">
@@ -83,7 +87,7 @@
         <input 
           id="search-input" 
           type="search" 
-          placeholder="Søg spots, spillesteder, dumplings, kranier..." 
+          placeholder="Søg spots, IPA, brugt vinyl, loppemarked, åbningstider..." 
           class="w-full bg-darkcard border border-darkborder rounded-xl pl-9 pr-8 py-2 text-sm text-gray-200 placeholder-gray-500 focus:outline-none focus:border-red-500 focus:ring-1 focus:ring-red-500 transition"
         >
         <button id="search-clear" class="hidden absolute inset-y-0 right-0 pr-3 flex items-center text-gray-400 hover:text-gray-200 text-xs">
@@ -94,19 +98,31 @@
       <!-- Category Filter Pills (Mobile Horizontal Scrollable) -->
       <div class="flex items-center gap-1.5 overflow-x-auto pb-1 no-scrollbar text-xs">
         <button data-cat="all" class="cat-pill active px-3 py-1.5 rounded-full font-bold bg-white text-gray-900 border border-white whitespace-nowrap transition shadow-sm">
-          Alle (15)
+          Alle (32)
         </button>
-        <button data-cat="hotel" class="cat-pill px-3 py-1.5 rounded-full font-semibold bg-darkcard text-amber-400 border border-darkborder hover:border-amber-500/50 whitespace-nowrap transition">
-          🏨 Basecamp
+        <button data-cat="beer" class="cat-pill px-3 py-1.5 rounded-full font-semibold bg-darkcard text-orange-400 border border-darkborder hover:border-orange-500/50 whitespace-nowrap transition">
+          🍺 Ølbarer (5)
+        </button>
+        <button data-cat="vinyl" class="cat-pill px-3 py-1.5 rounded-full font-semibold bg-darkcard text-cyan-400 border border-darkborder hover:border-cyan-500/50 whitespace-nowrap transition">
+          🎵 Vinylbutikker (5)
+        </button>
+        <button data-cat="flea" class="cat-pill px-3 py-1.5 rounded-full font-semibold bg-darkcard text-lime-400 border border-darkborder hover:border-lime-500/50 whitespace-nowrap transition">
+          🏷️ Loppemarkeder (5)
+        </button>
+        <button data-cat="vintage" class="cat-pill px-3 py-1.5 rounded-full font-semibold bg-darkcard text-purple-400 border border-darkborder hover:border-purple-500/50 whitespace-nowrap transition">
+          👔 Retro & Vintage (4)
         </button>
         <button data-cat="rock" class="cat-pill px-3 py-1.5 rounded-full font-semibold bg-darkcard text-red-400 border border-darkborder hover:border-red-500/50 whitespace-nowrap transition">
-          🎸 Rock & Alternativ
+          🎸 Rock & Musik (3)
+        </button>
+        <button data-cat="hotel" class="cat-pill px-3 py-1.5 rounded-full font-semibold bg-darkcard text-amber-400 border border-darkborder hover:border-amber-500/50 whitespace-nowrap transition">
+          🏨 Basecamp (1)
         </button>
         <button data-cat="monuments" class="cat-pill px-3 py-1.5 rounded-full font-semibold bg-darkcard text-blue-400 border border-darkborder hover:border-blue-500/50 whitespace-nowrap transition">
-          🏛️ Seværdigheder
+          🏛️ Seværdigheder (4)
         </button>
         <button data-cat="tiktok" class="cat-pill px-3 py-1.5 rounded-full font-semibold bg-darkcard text-pink-400 border border-darkborder hover:border-pink-500/50 whitespace-nowrap transition">
-          📱 TikTok & Insta
+          📱 TikTok & Insta (5)
         </button>
         <button data-cat="visited" class="cat-pill px-3 py-1.5 rounded-full font-semibold bg-darkcard text-emerald-400 border border-darkborder hover:border-emerald-500/50 whitespace-nowrap transition">
           ⭐ Besøgt (<span id="visited-counter">0</span>)
@@ -122,7 +138,7 @@
     <div id="view-map" class="w-full flex-1 relative min-h-[400px]">
       <div id="map" class="w-full h-full"></div>
       
-      <!-- Floating Map Action: Locate & Recenter -->
+      <!-- Floating Map Actions: Recenter & Go To Hotel -->
       <div class="absolute bottom-20 right-4 z-[500] flex flex-col gap-2">
         <button id="btn-recenter" title="Vis alle spots i Milano" class="w-11 h-11 rounded-2xl bg-darksurface/90 backdrop-blur-md border border-darkborder text-gray-200 hover:text-white shadow-xl flex items-center justify-center text-lg active:scale-95 transition">
           🎯
@@ -135,7 +151,7 @@
 
     <!-- List View Container -->
     <div id="view-list" class="hidden w-full flex-1 overflow-y-auto px-4 py-4 pb-24">
-      <div class="max-w-5xl mx-auto space-y-3" id="cards-container">
+      <div class="max-w-6xl mx-auto space-y-3" id="cards-container">
         <!-- Rendered dynamically -->
       </div>
       <div id="empty-state" class="hidden text-center py-12 space-y-3">
@@ -157,7 +173,7 @@
       </button>
       <button id="mobile-nav-list" class="flex-1 flex flex-col items-center justify-center py-1.5 rounded-xl text-gray-400 hover:text-white font-semibold text-xs">
         <span class="text-base leading-none mb-0.5">📋</span>
-        <span>Liste (<span id="mobile-list-count">15</span>)</span>
+        <span>Liste (<span id="mobile-list-count">32</span>)</span>
       </button>
       <button id="mobile-nav-hotel" class="flex-1 flex flex-col items-center justify-center py-1.5 rounded-xl text-amber-400 font-semibold text-xs hover:bg-amber-500/10">
         <span class="text-base leading-none mb-0.5">🏨</span>
@@ -189,6 +205,16 @@
 
       <!-- Modal Body -->
       <div class="px-5 py-4 overflow-y-auto space-y-4 text-sm text-gray-300">
+        
+        <!-- Opening hours banner (Crucial for Flea Markets & Bars) -->
+        <div class="rounded-2xl p-3 bg-darkcard border border-amber-500/30 flex items-start gap-2.5">
+          <span class="text-base text-amber-400 shrink-0">🕒</span>
+          <div>
+            <div class="text-[10px] font-extrabold uppercase tracking-wider text-amber-400">Åbningstider</div>
+            <p id="modal-hours" class="text-xs text-amber-100 font-semibold leading-relaxed mt-0.5"></p>
+          </div>
+        </div>
+
         <div>
           <h3 class="text-xs font-bold uppercase tracking-wider text-gray-400 mb-1">Hvorfor skal I se det?</h3>
           <p id="modal-desc" class="leading-relaxed text-gray-200"></p>
