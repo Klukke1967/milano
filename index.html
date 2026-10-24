@@ -16,7 +16,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 
   <!-- Custom Styles (cache busted) -->
-  <link rel="stylesheet" href="style.css?v=5">
+  <link rel="stylesheet" href="style.css?v=6">
 </head>
 <body class="dark-theme">
   <div class="app-wrapper">
@@ -31,6 +31,10 @@
           </div>
         </div>
         <div class="header-stats">
+          <span id="cloud-status-pill" class="cloud-status-pill" title="Live gruppesynkronisering i skyen (uden login)">
+            <span class="live-dot"></span>
+            <span class="cloud-label">Live synk</span>
+          </span>
           <span id="visited-counter-pill" class="visited-counter-pill" title="Steder I har besøgt">
             ⭐ <span id="visited-count">0</span> set
           </span>
@@ -50,6 +54,12 @@
           <span class="chip-icon">⚡</span>
           <span class="chip-label">Alle Spots</span>
           <span class="chip-count" id="count-all">0</span>
+        </button>
+
+        <button class="filter-chip chip-want" data-category="want">
+          <span class="chip-icon">❤️</span>
+          <span class="chip-label">Vil besøge</span>
+          <span class="chip-count" id="count-want">0</span>
         </button>
 
         <button class="filter-chip chip-rock" data-category="rock">
@@ -172,7 +182,11 @@
   <!-- Leaflet JS -->
   <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
   
+  <!-- Firebase SDK (Compat) -->
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
+
   <!-- App JS (cache busted) -->
-  <script src="app.js?v=4"></script>
+  <script src="app.js?v=6"></script>
 </body>
 </html>

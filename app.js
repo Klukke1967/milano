@@ -1,6 +1,26 @@
 // ============================================================
-// MILANO VENNETUR — APP LOGIK & KORT
+// MILANO 50 ÅRS TUR — APP LOGIK, KORT & FIREBASE SOCIAL (UDEN LOGIN)
 // ============================================================
+
+const FIREBASE_CONFIG = {
+  apiKey: atob("QUl6YVN5Q1BBY1lFcWhMN0Z3R3M0ZkRraEdaNE5aOHRsTjZRQnZr"),
+  authDomain: "vinyl-vault-aeb8e.firebaseapp.com",
+  projectId: "vinyl-vault-aeb8e",
+  storageBucket: "vinyl-vault-aeb8e.firebasestorage.app",
+  messagingSenderId: "998424028679",
+  appId: "1:998424028679:web:08dbf1fd19b416d21e6ca2",
+  measurementId: "G-72FLS200V4"
+};
+
+// Anonym enheds-identifikator (ingen adgangskoder eller logins påkrævet)
+const DEVICE_ID = localStorage.getItem('milano_device_id') || (() => {
+  const id = 'dev_' + Math.random().toString(36).substring(2, 9) + Date.now().toString(36);
+  localStorage.setItem('milano_device_id', id);
+  return id;
+})();
+
+let db = null;
+let socialData = {};
 
 const STATE = {
   places: [],
@@ -43,6 +63,7 @@ const DOM = {
   btnRecenter: document.getElementById('btn-recenter'),
   btnShowDuomo: document.getElementById('btn-show-duomo'),
   btnShowHotel: document.getElementById('btn-show-hotel'),
+  cloudStatusPill: document.getElementById('cloud-status-pill'),
 };
 
 // 1. Initialisering
@@ -50,10 +71,140 @@ document.addEventListener('DOMContentLoaded', async () => {
   loadVisitedFromStorage();
   initMap();
   await loadLocations();
+  initFirebaseSync();
   setupEventListeners();
 });
 
-// 2. LocalStorage for Besøgt-status
+// 2. Firebase Sync & Social Helper Funktioner
+function initFirebaseSync() {
+  if (!window.firebase || !window.firebase.initializeApp) {
+    updateCloudStatus(false);
+    return;
+  }
+
+  try {
+    if (!firebase.apps.length) {
+      firebase.initializeApp(FIREBASE_CONFIG);
+    }
+    db = firebase.firestore();
+    updateCloudStatus(true);
+
+    // Realtids lytter på samlingen 'milano_places_social'
+    db.collection('milano_places_social').onSnapshot(snapshot => {
+      snapshot.forEach(doc => {
+        socialData[doc.id] = doc.data();
+      });
+      updateCounts();
+      renderList();
+      if (STATE.activePlaceId) {
+        const place = STATE.places.find(p => p.id === STATE.activePlaceId);
+        if (place && DOM.modalBackdrop.classList.contains('open')) {
+          renderModalContent(place);
+        }
+      }
+    }, err => {
+      console.warn('Firestore snapshot fejl:', err);
+      updateCloudStatus(false);
+    });
+  } catch (err) {
+    console.error('Firebase fejl:', err);
+    updateCloudStatus(false);
+  }
+}
+
+function updateCloudStatus(isLive) {
+  if (!DOM.cloudStatusPill) return;
+  if (isLive) {
+    DOM.cloudStatusPill.innerHTML = '<span class="live-dot"></span> <span class="cloud-label">Live synk</span>';
+    DOM.cloudStatusPill.style.color = '#10B981';
+  } else {
+    DOM.cloudStatusPill.innerHTML = '<span>⚡</span> <span>Lokal</span>';
+    DOM.cloudStatusPill.style.color = '#9CA3AF';
+  }
+}
+
+function getPlaceSocial(placeId) {
+  const data = socialData[placeId] || {};
+  const wants = data.wants || {};
+  const ratings = data.ratings || {};
+
+  const wantCount = Object.values(wants).filter(Boolean).length;
+  const isMyWant = !!wants[DEVICE_ID];
+
+  const ratingVals = Object.values(ratings).filter(n => typeof n === 'number' && n > 0);
+  const ratingCount = ratingVals.length;
+  const avgRating = ratingCount > 0 
+    ? (ratingVals.reduce((a, b) => a + b, 0) / ratingCount).toFixed(1)
+    : 0;
+  const myRating = ratings[DEVICE_ID] || 0;
+
+  return { wantCount, isMyWant, avgRating, ratingCount, myRating };
+}
+
+// Skift "Vil besøge" status for aktuel enhed
+async function toggleWant(placeId) {
+  const data = socialData[placeId] || { wants: {}, ratings: {} };
+  const wants = { ...(data.wants || {}) };
+
+  if (wants[DEVICE_ID]) {
+    delete wants[DEVICE_ID];
+  } else {
+    wants[DEVICE_ID] = true;
+  }
+
+  socialData[placeId] = { ...data, wants };
+  updateCounts();
+  renderList();
+
+  if (STATE.activePlaceId === placeId) {
+    const place = STATE.places.find(p => p.id === placeId);
+    if (place) renderModalContent(place);
+  }
+
+  if (db) {
+    try {
+      await db.collection('milano_places_social').doc(placeId).set({
+        wants,
+        lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+    } catch (e) {
+      console.error('Kunne ikke gemme vil-besøge i Firebase:', e);
+    }
+  }
+}
+
+// Giv en rating (1-5 stjerner)
+async function ratePlace(placeId, star) {
+  const data = socialData[placeId] || { wants: {}, ratings: {} };
+  const ratings = { ...(data.ratings || {}) };
+
+  if (ratings[DEVICE_ID] === star) {
+    delete ratings[DEVICE_ID];
+  } else {
+    ratings[DEVICE_ID] = star;
+  }
+
+  socialData[placeId] = { ...data, ratings };
+  renderList();
+
+  if (STATE.activePlaceId === placeId) {
+    const place = STATE.places.find(p => p.id === placeId);
+    if (place) renderModalContent(place);
+  }
+
+  if (db) {
+    try {
+      await db.collection('milano_places_social').doc(placeId).set({
+        ratings,
+        lastUpdated: firebase.firestore.FieldValue.serverTimestamp()
+      }, { merge: true });
+    } catch (e) {
+      console.error('Kunne ikke gemme rating i Firebase:', e);
+    }
+  }
+}
+
+// 3. LocalStorage for Besøgt-status
 function loadVisitedFromStorage() {
   try {
     const saved = localStorage.getItem('milano_visited_spots');
@@ -100,9 +251,8 @@ function updateVisitedCounters() {
   if (countVisitedEl) countVisitedEl.textContent = count;
 }
 
-// 3. Leaflet Kort Opsætning (100% åbne kilder uden API key krav)
+// 4. Leaflet Kort Opsætning (Esri Dark + OSM)
 function initMap() {
-  // Start-center direkte over Hotel ibis Milano Centro
   STATE.map = L.map('map', {
     zoomControl: false,
     attributionControl: false
@@ -110,7 +260,6 @@ function initMap() {
 
   L.control.zoom({ position: 'topright' }).addTo(STATE.map);
 
-  // Esri Dark Gray Canvas + gadenavne (Ingen API-nøgle påkrævet, super flot mørkt tema)
   const esriDarkBase = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
     maxZoom: 18,
   });
@@ -121,7 +270,6 @@ function initMap() {
 
   const darkGroup = L.layerGroup([esriDarkBase, esriDarkLabels]);
 
-  // Åbne alternativer uden API-nøgler
   const osmHot = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
     maxZoom: 19,
   });
@@ -139,7 +287,7 @@ function initMap() {
   }, null, { position: 'bottomleft' }).addTo(STATE.map);
 }
 
-// 4. Hent data fra locations.json
+// 5. Hent data fra locations.json
 async function loadLocations() {
   try {
     const res = await fetch('locations.json?v=' + Date.now());
@@ -156,7 +304,7 @@ async function loadLocations() {
   }
 }
 
-// 5. Render Kort Markører
+// 6. Render Kort Markører
 function renderMarkers() {
   Object.values(STATE.markers).forEach(m => STATE.map.removeLayer(m));
   STATE.markers = {};
@@ -186,6 +334,8 @@ function renderMarkers() {
     const googleMapsNav = `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}&travelmode=walking`;
     const appleMapsNav = `https://maps.apple.com/?daddr=${place.lat},${place.lng}&dirflg=w`;
 
+    const social = getPlaceSocial(place.id);
+
     const hoverHtml = `
       <div class="hover-card">
         <div class="hover-top-row">
@@ -196,7 +346,10 @@ function renderMarkers() {
           </div>
         </div>
         <p class="hover-desc">${place.shortDesc}</p>
-        ${place.hours ? `<div style="font-size:0.7rem; color:var(--neon-gold); font-weight:600;">🕒 ${place.hours}</div>` : ''}
+        <div style="display:flex; justify-content:space-between; align-items:center; font-size:0.7rem; color:var(--neon-gold); font-weight:600; margin-top:2px;">
+          <span>🕒 ${place.hours || 'Åbent'}</span>
+          <span>${social.avgRating > 0 ? `⭐ ${social.avgRating}` : ''} ${social.wantCount > 0 ? `❤️ ${social.wantCount}` : ''}</span>
+        </div>
         <div class="hover-actions">
           <a href="${googleMapsNav}" target="_blank" rel="noopener noreferrer" class="hover-btn hover-btn-google" onclick="event.stopPropagation()">
             <span>🗺️ Google Maps</span>
@@ -227,7 +380,7 @@ function renderMarkers() {
   });
 }
 
-// 6. Render Liste
+// 7. Render Liste
 function renderList() {
   if (STATE.filteredPlaces.length === 0) {
     DOM.placesList.innerHTML = `
@@ -243,6 +396,7 @@ function renderList() {
   DOM.placesList.innerHTML = STATE.filteredPlaces.map(place => {
     const meta = CATEGORY_META[place.category] || { icon: '📍', label: place.category, badgeClass: 'badge-rock' };
     const isVisited = STATE.visitedIds.has(place.id);
+    const social = getPlaceSocial(place.id);
 
     return `
       <article class="place-card ${place.isHotel ? 'is-hotel' : ''} ${isVisited ? 'visited' : ''}" onclick="selectPlace('${place.id}')">
@@ -255,6 +409,23 @@ function renderList() {
             </div>
             <p class="card-desc">${place.shortDesc}</p>
             ${place.hours ? `<div class="card-hours-badge">🕒 ${place.hours}</div>` : ''}
+            
+            <!-- Gruppe Social / Rating Række -->
+            <div class="card-social-row">
+              <span class="pill-want ${social.isMyWant ? 'my-want' : ''}" onclick="event.stopPropagation(); toggleWant('${place.id}')" title="Klik for at markere at du vil herhen">
+                ${social.isMyWant ? '❤️' : '🤍'} ${social.wantCount} vil se
+              </span>
+
+              ${social.avgRating > 0 ? `
+                <span class="pill-rating" title="Gennemsnitlig vurdering">
+                  ⭐ ${social.avgRating} (${social.ratingCount})
+                </span>
+              ` : `
+                <span class="pill-rating" style="opacity:0.6;" title="Klik for at give stjerner">
+                  ☆ Giv rating
+                </span>
+              `}
+            </div>
           </div>
         </div>
         <div class="card-footer">
@@ -268,7 +439,7 @@ function renderList() {
   }).join('');
 }
 
-// 7. Vælg og centrer sted
+// 8. Vælg og centrer sted
 function selectPlace(placeId) {
   const place = STATE.places.find(p => p.id === placeId);
   if (!place) return;
@@ -285,11 +456,18 @@ function selectPlace(placeId) {
   }
 }
 
-// 8. Detalje Modal / Bottom Sheet
+// 9. Detalje Modal / Bottom Sheet
 function openModal(place) {
   STATE.activePlaceId = place.id;
+  renderModalContent(place);
+  DOM.modalBackdrop.classList.add('open');
+}
+
+function renderModalContent(place) {
   const meta = CATEGORY_META[place.category] || { icon: '📍', label: place.category, badgeClass: 'badge-rock' };
   const isVisited = STATE.visitedIds.has(place.id);
+  const social = getPlaceSocial(place.id);
+
   const googleMapsNav = `https://www.google.com/maps/dir/?api=1&destination=${place.lat},${place.lng}&travelmode=walking`;
   const appleMapsNav = `https://maps.apple.com/?daddr=${place.lat},${place.lng}&dirflg=w`;
 
@@ -315,6 +493,42 @@ function openModal(place) {
         <span>Åbningstider: <strong>${place.hours}</strong></span>
       </div>
     ` : ''}
+
+    <!-- SOCIAL & GRUPPE PANEL (FIREBASE UDEN LOGIN) -->
+    <div class="modal-social-panel">
+      <div class="social-header">
+        <span class="social-title">👥 GRUPPENS VURDERING & ØNSKER</span>
+        <span class="social-sync-badge">☁️ Live sync</span>
+      </div>
+
+      <div class="social-grid">
+        <!-- Vil besøge knap -->
+        <button class="btn-want-action ${social.isMyWant ? 'active' : ''}" onclick="toggleWant('${place.id}')">
+          <span class="want-heart">${social.isMyWant ? '❤️' : '🤍'}</span>
+          <div class="want-text">
+            <div class="want-title">${social.isMyWant ? 'Du har markeret: Vil gerne besøge!' : 'Vil du gerne herhen?'}</div>
+            <div class="want-sub">${social.wantCount} ${social.wantCount === 1 ? 'person i gruppen vil' : 'i gruppen vil'} besøge dette sted</div>
+          </div>
+        </button>
+
+        <!-- Stjernerating -->
+        <div class="rating-box">
+          <div class="rating-box-title">Giv din vurdering (1-5 ⭐):</div>
+          <div class="star-rating-row">
+            ${[1, 2, 3, 4, 5].map(star => `
+              <button class="star-btn ${star <= social.myRating ? 'selected' : ''}" onclick="ratePlace('${place.id}', ${star})" title="${star} ud af 5 stjerner">
+                ★
+              </button>
+            `).join('')}
+          </div>
+          <div class="rating-summary-text">
+            ${social.avgRating > 0 
+              ? `Gennemsnit: <strong>${social.avgRating} / 5 ⭐</strong> baseret på <strong>${social.ratingCount}</strong> ${social.ratingCount === 1 ? 'vurdering' : 'vurderinger'}`
+              : 'Ingen vurderinger endnu — tryk på stjernerne for at give den første!'}
+          </div>
+        </div>
+      </div>
+    </div>
 
     <p class="modal-desc">${place.shortDesc}</p>
 
@@ -346,18 +560,22 @@ function openModal(place) {
       </button>
     </div>
   `;
-
-  DOM.modalBackdrop.classList.add('open');
 }
 
 function closeModal() {
   DOM.modalBackdrop.classList.remove('open');
 }
 
-// 9. Filtrering & Tællere
+// 10. Filtrering & Tællere
 function updateCounts() {
+  const totalWants = STATE.places.filter(p => {
+    const s = getPlaceSocial(p.id);
+    return s.wantCount > 0 || s.isMyWant;
+  }).length;
+
   const counts = {
     all: STATE.places.length,
+    want: totalWants,
     rock: STATE.places.filter(p => p.category === 'rock').length,
     vinyl: STATE.places.filter(p => p.category === 'vinyl').length,
     beer: STATE.places.filter(p => p.category === 'beer').length,
@@ -385,6 +603,9 @@ function applyFilters() {
       matchCat = true;
     } else if (STATE.selectedCategory === 'visited') {
       matchCat = STATE.visitedIds.has(place.id);
+    } else if (STATE.selectedCategory === 'want') {
+      const s = getPlaceSocial(place.id);
+      matchCat = s.wantCount > 0 || s.isMyWant;
     } else {
       matchCat = place.category === STATE.selectedCategory;
     }
@@ -401,6 +622,15 @@ function applyFilters() {
 
     return matchCat && matchQuery;
   });
+
+  // Hvis man filtrerer efter 'want', sortér efter flest hjerter først
+  if (STATE.selectedCategory === 'want') {
+    STATE.filteredPlaces.sort((a, b) => {
+      const sa = getPlaceSocial(a.id).wantCount;
+      const sb = getPlaceSocial(b.id).wantCount;
+      return sb - sa;
+    });
+  }
 
   const count = STATE.filteredPlaces.length;
   DOM.activeCountLabel.textContent = `${count} steder`;
@@ -420,7 +650,7 @@ function resetFilters() {
   applyFilters();
 }
 
-// 10. Event Listeners
+// 11. Event Listeners
 function setupEventListeners() {
   DOM.filterChips.forEach(chip => {
     chip.addEventListener('click', () => {
