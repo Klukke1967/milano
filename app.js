@@ -94,33 +94,41 @@ function updateVisitedCounters() {
   if (countVisitedEl) countVisitedEl.textContent = count;
 }
 
-// 3. Leaflet Kort Opsætning
+// 3. Leaflet Kort Opsætning (100% åbne kilder uden API key krav)
 function initMap() {
-  // Center over Milanos historiske centrum (Duomo området)
   STATE.map = L.map('map', {
     zoomControl: false,
     attributionControl: false
   }).setView([45.4642, 9.1900], 13);
 
-  // Zoom kontrol i øverste højre hjørne
   L.control.zoom({ position: 'topright' }).addTo(STATE.map);
 
-  // Mørkt Carto Dark kortlag
-  const darkTiles = L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-    maxZoom: 19,
-    subdomains: 'abcd',
+  // Esri Dark Gray Canvas + gadenavne (Ingen API-nøgle påkrævet, super flot mørkt tema)
+  const esriDarkBase = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Base/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 18,
   });
 
-  // Backup åbent kortlag (OSM Humanitarian)
-  const osmHotTiles = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
+  const esriDarkLabels = L.tileLayer('https://server.arcgisonline.com/ArcGIS/rest/services/Canvas/World_Dark_Gray_Reference/MapServer/tile/{z}/{y}/{x}', {
+    maxZoom: 18,
+  });
+
+  const darkGroup = L.layerGroup([esriDarkBase, esriDarkLabels]);
+
+  // Åbne alternativer uden API-nøgler
+  const osmHot = L.tileLayer('https://{s}.tile.openstreetmap.fr/hot/{z}/{x}/{y}.png', {
     maxZoom: 19,
   });
 
-  darkTiles.addTo(STATE.map);
+  const osmStandard = L.tileLayer('https://tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    maxZoom: 19,
+  });
+
+  darkGroup.addTo(STATE.map);
 
   L.control.layers({
-    "🌙 Urban Dark": darkTiles,
-    "☀️ Lyst Kort": osmHotTiles
+    "🌙 Urban Dark": darkGroup,
+    "🎨 Street Map (HOT)": osmHot,
+    "☀️ Standard OSM": osmStandard
   }, null, { position: 'bottomleft' }).addTo(STATE.map);
 }
 
