@@ -1,5 +1,5 @@
 // ============================================================
-// MILANO 50 ÅRS TUR — APP LOGIK, KORT & FIREBASE SOCIAL (UDEN LOGIN)
+// MILANO 2026 — APP LOGIK, KORT & FIREBASE SOCIAL (UDEN LOGIN)
 // ============================================================
 
 const FIREBASE_CONFIG = {
@@ -534,7 +534,7 @@ function renderModalContent(place) {
 
     ${place.tips ? `
       <div class="modal-tip-box ${tipClass}">
-        <div class="tip-title">💡 Insider-Tip til 50 års turen</div>
+        <div class="tip-title">💡 Insider-Tip til Milano 2026</div>
         <div class="tip-body">${place.tips}</div>
       </div>
     ` : ''}

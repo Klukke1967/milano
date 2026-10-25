@@ -1331,3 +1331,50 @@ body {
   color: var(--text-muted);
   margin-top: 2px;
 }
+
+/* ============================================================
+   MILANO 2026 HEADER AVATARS (TEGNESERIE)
+   ============================================================ */
+.header-avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 2.5px solid var(--neon-rock);
+  box-shadow: 0 0 14px rgba(255, 42, 109, 0.5);
+  flex-shrink: 0;
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s ease;
+  background: #111;
+}
+
+.header-avatar:hover {
+  transform: scale(1.15) rotate(3deg);
+  box-shadow: 0 0 20px rgba(255, 42, 109, 0.8);
+}
+
+.header-avatar-right {
+  border-color: var(--neon-sight);
+  box-shadow: 0 0 14px rgba(0, 210, 255, 0.5);
+}
+
+.header-avatar-right:hover {
+  transform: scale(1.15) rotate(-3deg);
+  box-shadow: 0 0 20px rgba(0, 210, 255, 0.8);
+}
+
+@media (max-width: 480px) {
+  .header-main {
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+  .brand {
+    gap: 8px;
+  }
+  .header-avatar {
+    width: 36px;
+    height: 36px;
+  }
+  .brand-text h1 {
+    font-size: 1.05rem;
+  }
+}
