@@ -73,6 +73,7 @@ document.addEventListener('DOMContentLoaded', async () => {
   await loadLocations();
   initFirebaseSync();
   setupEventListeners();
+  checkForAppUpdates();
 });
 
 // 2. Firebase Sync & Social Helper Funktioner
@@ -706,4 +707,71 @@ function setupEventListeners() {
   DOM.btnRecenter.addEventListener('click', () => {
     STATE.map.flyTo([45.47829, 9.20178], 13, { duration: 0.8 });
   });
+
+  // Manuel tving-opdatering knap i headeren
+  const btnRefresh = document.getElementById('btn-force-refresh');
+  if (btnRefresh) {
+    btnRefresh.addEventListener('click', () => {
+      btnRefresh.style.transform = 'rotate(360deg)';
+      setTimeout(() => {
+        forceAppReload();
+      }, 200);
+    });
+  }
+
+  // Tjek for opdateringer når browser-fanen eller appen aktiveres
+  document.addEventListener('visibilitychange', () => {
+    if (document.visibilityState === 'visible') {
+      checkForAppUpdates();
+    }
+  });
+
+  window.addEventListener('focus', () => {
+    checkForAppUpdates();
+  });
 }
+
+// 12. Automatisk Versions-tjek & Cache-busting
+async function checkForAppUpdates() {
+  try {
+    const res = await fetch('version.json?t=' + Date.now(), { cache: 'no-store' });
+    if (!res.ok) return;
+    const serverVer = await res.json();
+    const storedBuild = localStorage.getItem('milano_current_build');
+
+    if (!storedBuild) {
+      localStorage.setItem('milano_current_build', serverVer.buildTime);
+      return;
+    }
+
+    if (serverVer.buildTime > parseInt(storedBuild, 10)) {
+      showUpdateToast(serverVer);
+    }
+  } catch (e) {
+    console.debug('Update check skipped:', e);
+  }
+}
+
+function showUpdateToast(serverVer) {
+  const toast = document.getElementById('update-toast');
+  const btn = document.getElementById('btn-toast-reload');
+  if (!toast) return;
+
+  toast.classList.add('show');
+
+  if (btn) {
+    btn.onclick = () => {
+      forceAppReload(serverVer.buildTime);
+    };
+  }
+}
+
+function forceAppReload(newBuildTime) {
+  if (newBuildTime) {
+    localStorage.setItem('milano_current_build', newBuildTime);
+  }
+  const url = new URL(window.location.href);
+  url.searchParams.set('v', Date.now());
+  window.location.href = url.toString();
+}
+

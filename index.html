@@ -6,6 +6,9 @@
   <title>Milano 2026 🎸 — Rejseguide & Kort</title>
   <meta name="description" content="Eksklusiv mobil-guide til Milano 2026: Hotel ibis, Rock & live musik, vinyl, ølbarer, retro & loppemarkeder samt TikTok hotspots.">
   <meta name="theme-color" content="#0E0E12">
+  <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
+  <meta http-equiv="Pragma" content="no-cache">
+  <meta http-equiv="Expires" content="0">
 
   <!-- Google Fonts: Space Grotesk & Outfit -->
   <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -16,7 +19,7 @@
   <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin=""/>
 
   <!-- Custom Styles (cache busted) -->
-  <link rel="stylesheet" href="style.css?v=7">
+  <link rel="stylesheet" href="style.css?v=8">
 </head>
 <body class="dark-theme">
   <div class="app-wrapper">
@@ -32,6 +35,9 @@
           <img src="assets/avatar_2.png" alt="Rejsende 2" class="header-avatar header-avatar-right" title="Milano 2026 Crew">
         </div>
         <div class="header-stats">
+          <button id="btn-force-refresh" class="btn-refresh-pill" title="Tving opdatering af appen" aria-label="Opdater app">
+            <span>🔄</span>
+          </button>
           <span id="cloud-status-pill" class="cloud-status-pill" title="Live gruppesynkronisering i skyen (uden login)">
             <span class="live-dot"></span>
             <span class="cloud-label">Live synk</span>
@@ -169,6 +175,15 @@
       </button>
     </nav>
 
+    <!-- Automatisk Opdaterings-Toast -->
+    <div id="update-toast" class="update-toast">
+      <div class="toast-content">
+        <span class="toast-icon">🚀</span>
+        <span class="toast-text">Ny opdatering til Milano 2026!</span>
+      </div>
+      <button id="btn-toast-reload" class="btn-toast-reload">Opdater nu</button>
+    </div>
+
     <!-- Detalje Modal / Bottom Sheet -->
     <div class="modal-backdrop" id="modal-backdrop">
       <div class="detail-modal" id="detail-modal" role="dialog" aria-modal="true">
@@ -188,6 +203,6 @@
   <script src="https://www.gstatic.com/firebasejs/9.23.0/firebase-firestore-compat.js"></script>
 
   <!-- App JS (cache busted) -->
-  <script src="app.js?v=7"></script>
+  <script src="app.js?v=8"></script>
 </body>
 </html>
